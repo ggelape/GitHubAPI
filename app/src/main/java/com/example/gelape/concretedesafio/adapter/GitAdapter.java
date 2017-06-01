@@ -29,7 +29,7 @@ public class GitAdapter extends ArrayAdapter<Repos>
     //region Variable declaration
     private int rowLayout;
     private List<Repos> repos;
-    private List<Owner> owner;
+    private Owner owner;
     private List<Pulls> pulls;
     private List<Users> users;
     private Context context;
@@ -75,7 +75,7 @@ public class GitAdapter extends ArrayAdapter<Repos>
         //region View Holder Declarations and handling
         View convertView;
         final GitViewHolder holder;
-
+        final Repos reposs = repos.get(position);
         if (view == null)
         {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item_repo, parent, false);
@@ -89,12 +89,12 @@ public class GitAdapter extends ArrayAdapter<Repos>
         }
         //endregion
 
-        ownerUrl = owner.get(position).getAvatarUrl();
+        ownerUrl = reposs.getOwnerInfo().getAvatarUrl();
         Picasso.with(context).cancelRequest(holder.authorPhoto);
         Picasso.with(context).load(ownerUrl).into(holder.authorPhoto);
         holder.titleTextView.setText(repos.get(position).getName());
         holder.detailsTextView.setText(repos.get(position).getDescription());
-        holder.usernameTextView.setText(owner.get(position).getLogin());
+        holder.usernameTextView.setText(reposs.getOwnerInfo().getLogin());
         holder.forkNumber.setText(repos.get(position).getForksCount());
         holder.starNumber.setText(repos.get(position).getStarsCount());
 //        holder.cardView.setOnClickListener(new View.OnClickListener()

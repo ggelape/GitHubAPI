@@ -13,21 +13,21 @@ public class Repos implements Serializable
     private String name;
 
     @SerializedName("owner")
-    private List<Owner> ownerInfo;
+    private Owner ownerInfo;
 
     @SerializedName("description")
     private String description;
 
     @SerializedName("pulls_url")
-    private List<Pulls> pullsInfo;
+    private String pullsInfo;
 
     @SerializedName("stargazers_count")
-    private int starsCount;
+    private String starsCount;
 
     @SerializedName("forks")
-    private int forksCount;
+    private String forksCount;
 
-    public Repos (String name, List<Owner> ownerInfo, String description, List<Pulls> pullsInfo, int starsCount, int forksCount)
+    public Repos (String name, Owner ownerInfo, String description, String pullsInfo, String starsCount, String forksCount)
     {
         this.name = name;
         this.ownerInfo = ownerInfo;
@@ -45,11 +45,11 @@ public class Repos implements Serializable
     {
         this.name = name;
     }
-    public List<Owner> getOwnerInfo()
+    public Owner getOwnerInfo()
     {
         return ownerInfo;
     }
-    public void setOwnerInfo(List<Owner> ownerInfo)
+    public void setOwnerInfo(Owner ownerInfo)
     {
         this.ownerInfo = ownerInfo;
     }
@@ -61,27 +61,27 @@ public class Repos implements Serializable
     {
         this.description = description;
     }
-    public List<Pulls> getPullsInfo()
+    public String getPullsInfo()
     {
         return pullsInfo;
     }
-    public void setPullsInfo(List<Pulls> pullsInfo)
+    public void setPullsInfo(String pullsInfo)
     {
         this.pullsInfo = pullsInfo;
     }
-    public int getStarsCount()
+    public String getStarsCount()
     {
         return starsCount;
     }
-    public void setStarsCount(int starsCount)
+    public void setStarsCount(String starsCount)
     {
         this.starsCount = starsCount;
     }
-    public int getForksCount()
+    public String getForksCount()
     {
         return forksCount;
     }
-    public void setForksCount(int forksCount)
+    public void setForksCount(String forksCount)
     {
         this.forksCount = forksCount;
     }

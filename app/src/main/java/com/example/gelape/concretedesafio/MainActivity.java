@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
     private final static String QUERYL = "language:Java";
     private final static String SORTING = "stars";
+    private final static int CURPAGE = 1;
     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     ListView listView;
 
@@ -32,9 +33,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.listView);
-        Log.i("URL", "penios");
 
-        Call<RepoResponse> call = apiService.getTopRepos();
+        Call<RepoResponse> call = apiService.getTopRepos(QUERYL, SORTING, CURPAGE);
         call.enqueue(new Callback<RepoResponse>()
         {
 
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(Call<RepoResponse>call, Throwable t)
             {
                 // Log error here since request failed
-                Log.i("URL", call.toString());
                 Log.e(TAG, t.toString());
             }
         });
