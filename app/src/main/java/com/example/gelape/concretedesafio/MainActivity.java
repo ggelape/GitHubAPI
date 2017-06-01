@@ -2,7 +2,9 @@ package com.example.gelape.concretedesafio;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,9 +23,10 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = MainActivity.class.getSimpleName();
-    private final static String QUERYL = "language:Java";
-    private final static String SORTING = "stars";
-    private final static int CURPAGE = 1;
+    private final String QUERYL = "language:Java";
+    private final String SORTING = "stars";
+    private final int CURPAGE = 1;
+    private EndlessScrollListener scrollListener;
     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     ListView listView;
 
@@ -34,7 +37,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.listView);
 
-        Call<RepoResponse> call = apiService.getTopRepos(QUERYL, SORTING, CURPAGE);
+        scrollListener = new EndlessScrollListener()
+        {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount)
+            {
+                loadMoreData(page);
+            }
+        };
+        listView.setOnScrollListener(scrollListener);
+        loadMoreData(CURPAGE);
+    }
+
+    public void loadMoreData(int page)
+    {
+        Call<RepoResponse> call = apiService.getTopRepos(QUERYL, SORTING, page);
         call.enqueue(new Callback<RepoResponse>()
         {
 
@@ -43,8 +60,8 @@ public class MainActivity extends AppCompatActivity
             {
                 int statusCode = response.code();
                 Log.i("URL", response.toString());
-                final List<Repos> movies = response.body().getItems();
-                GitAdapter adapter = new GitAdapter(getApplicationContext(), R.layout.list_item_repo, movies);
+                final List<Repos> repos = response.body().getItems();
+                GitAdapter adapter = new GitAdapter(getApplicationContext(), R.layout.list_item_repo, repos);
                 listView.setAdapter(adapter);
             }
 

@@ -123,7 +123,7 @@ public class GitAdapter extends ArrayAdapter<Repos>
 
     }
 
-    public static class GitViewHolder extends RecyclerView.ViewHolder
+    public class GitViewHolder extends RecyclerView.ViewHolder
     {
         LinearLayout repoLayout;
         TextView titleTextView;
