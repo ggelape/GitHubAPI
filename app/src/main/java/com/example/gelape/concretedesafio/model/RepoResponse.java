@@ -8,8 +8,6 @@ public class RepoResponse
 {
     @SerializedName("total_count")
     private int totalCount;
-    @SerializedName("incomplete_results")
-    private boolean incompleteTorF;
     @SerializedName("items")
     private List<Repos> items;
 

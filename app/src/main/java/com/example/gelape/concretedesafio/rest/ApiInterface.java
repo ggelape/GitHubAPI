@@ -8,6 +8,7 @@ import retrofit2.http.Query;
 
 public interface ApiInterface
 {
+
     @GET("search/repositories?")
-    Call<RepoResponse> getTopRepos(@Query("q") String q, @Query("sort") String sorting, @Query("page") String pageNum);
+    Call<RepoResponse> getTopRepos(@Query("q") String q, @Query("sort") String sorting);//, @Query("page") String pageNum);
 }
