@@ -14,6 +14,7 @@ import com.example.gelape.concretedesafio.model.Repos;
 import com.example.gelape.concretedesafio.rest.ApiClient;
 import com.example.gelape.concretedesafio.rest.ApiInterface;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.listView);
 
-        scrollListener = new EndlessScrollListener()
+        scrollListener = new EndlessScrollListener(5)
         {
             @Override
             public void onLoadMore(int page, int totalItemsCount)
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity
                 final List<Repos> repos = response.body().getItems();
                 GitAdapter adapter = new GitAdapter(getApplicationContext(), R.layout.list_item_repo, repos);
                 listView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

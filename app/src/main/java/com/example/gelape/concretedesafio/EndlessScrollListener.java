@@ -6,12 +6,9 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
 {
     private int currPage = 0;
     private int visibleThreshold = 0;
-    private int previousTotalItemCount = 30;
+    private int previousTotalItemCount = 0;
     private boolean loading = true;
     private int startingPageIndex = 0;
-    public final int SCROLL_DIRECTION_UP = 0;
-    public final int SCROLL_DIRECTION_DOWN = 1;
-    private int scrollDirection = SCROLL_DIRECTION_DOWN;
 
     public EndlessScrollListener()
     {
@@ -57,7 +54,7 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
 
         if (!loading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount )
         {
-            onLoadMore(currPage++, totalItemCount);
+            onLoadMore(currPage + 1, totalItemCount);
         }
     }
     public abstract void onLoadMore(int page, int totalItemsCount);
