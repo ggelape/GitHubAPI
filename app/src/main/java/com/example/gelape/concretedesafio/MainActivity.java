@@ -1,5 +1,6 @@
 package com.example.gelape.concretedesafio;
 
+import android.content.ClipData;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity
     private EndlessScrollListener scrollListener;
     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     ListView listView;
+    List<Repos> repos;
+    GitAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +40,28 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.listView);
+
+        Call<RepoResponse> call = apiService.getTopRepos(QUERYL, SORTING, CURPAGE);
+        call.enqueue(new Callback<RepoResponse>()
+        {
+
+            @Override
+            public void onResponse(Call<RepoResponse>call, Response<RepoResponse> response)
+            {
+                int statusCode = response.code();
+                repos = response.body().getItems();
+                adapter = new GitAdapter(getApplicationContext(), R.layout.list_item_repo, repos);
+                listView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<RepoResponse>call, Throwable t)
+            {
+                // Log error here since request failed
+                Log.e(TAG, t.toString());
+            }
+        });
 
         scrollListener = new EndlessScrollListener(5)
         {
@@ -47,11 +72,11 @@ public class MainActivity extends AppCompatActivity
             }
         };
         listView.setOnScrollListener(scrollListener);
-        loadMoreData(CURPAGE);
     }
 
     public void loadMoreData(int page)
     {
+
         Call<RepoResponse> call = apiService.getTopRepos(QUERYL, SORTING, page);
         call.enqueue(new Callback<RepoResponse>()
         {
@@ -60,10 +85,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<RepoResponse>call, Response<RepoResponse> response)
             {
                 int statusCode = response.code();
-                Log.i("URL", response.toString());
-                final List<Repos> repos = response.body().getItems();
-                GitAdapter adapter = new GitAdapter(getApplicationContext(), R.layout.list_item_repo, repos);
-                listView.setAdapter(adapter);
+                adapter.addAll(response.body().getItems());
                 adapter.notifyDataSetChanged();
             }
 
