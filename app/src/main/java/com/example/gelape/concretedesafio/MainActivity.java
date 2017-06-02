@@ -1,13 +1,9 @@
 package com.example.gelape.concretedesafio;
 
-import android.content.ClipData;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.gelape.concretedesafio.adapter.GitAdapter;
 import com.example.gelape.concretedesafio.model.RepoResponse;
@@ -15,7 +11,6 @@ import com.example.gelape.concretedesafio.model.Repos;
 import com.example.gelape.concretedesafio.rest.ApiClient;
 import com.example.gelape.concretedesafio.rest.ApiInterface;
 
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;

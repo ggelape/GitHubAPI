@@ -3,8 +3,6 @@ package com.example.gelape.concretedesafio.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,11 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.gelape.concretedesafio.PullsActivity;
 import com.example.gelape.concretedesafio.R;
 import com.example.gelape.concretedesafio.model.Owner;
 import com.example.gelape.concretedesafio.model.Pulls;
 import com.example.gelape.concretedesafio.model.Repos;
-import com.example.gelape.concretedesafio.model.Users;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -30,21 +28,11 @@ public class GitAdapter extends ArrayAdapter<Repos>
     private int rowLayout;
     private List<Repos> repos;
     private Owner owner;
-    private List<Pulls> pulls;
-    private List<Users> users;
+    private Pulls pulls;
     private Context context;
     String name;
     String ownerLogin;
     String ownerUrl;
-    String description;
-    String pullHtml;
-    String pullTitle;
-    String pullLogin;
-    String pullUrl;
-    String pullBody;
-    String pullCreated;
-    int starCount;
-    int forkCount;
     //endregion
 
     public GitAdapter(Context context, int rowLayout, List<Repos> repos)
@@ -67,10 +55,9 @@ public class GitAdapter extends ArrayAdapter<Repos>
         return super.getItemId(position);
     }
 
-    //name, owner(login, avatar_url) , description,
-    //pulls_url(html_url ,title,user(login, avatar_url), body, created_at), stargazers_count, forks
+
     @Override
-    public View getView(int position, View view, ViewGroup parent)
+    public View getView(final int position, View view, ViewGroup parent)
     {
         //region View Holder Declarations and handling
         View convertView;
@@ -97,27 +84,25 @@ public class GitAdapter extends ArrayAdapter<Repos>
         holder.usernameTextView.setText(reposs.getOwnerInfo().getLogin());
         holder.forkNumber.setText(repos.get(position).getForksCount());
         holder.starNumber.setText(repos.get(position).getStarsCount());
-//        holder.cardView.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                movieTitleS = holder.movieTitle.getText().toString();
-//                dataS = holder.data.getText().toString();
-//                movieDescriptionS = holder.movieDescription.getText().toString();
-//                ratingI = holder.rating.getText().toString();
-//                posterUrl2 = "http://image.tmdb.org/t/p/w300/"+movies.get(position).getPosterPath();
-//                Intent intent = new Intent(context.getApplicationContext(), MovieDetailsActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra("posterUrl2",posterUrl2);
-//                intent.putExtra("movieTitleS",movieTitleS);
-//                intent.putExtra("dataS",dataS);
-//                intent.putExtra("movieDescriptionS",movieDescriptionS);
-//                intent.putExtra("ratingI",ratingI);
-//                context.startActivity(intent);
-//
-//            }
-//        });
+
+        //name, owner(login, avatar_url) , description,
+        //pulls_url(html_url ,title,user(login, avatar_url), body, created_at), stargazers_count, forks
+
+        holder.cardView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ownerLogin = repos.get(position).getOwnerInfo().getLogin();
+                name = repos.get(position).getName();
+                Intent intent = new Intent(context.getApplicationContext(), PullsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("owner", ownerLogin);
+                intent.putExtra("name", name);
+                context.startActivity(intent);
+
+            }
+        });
 
         return convertView;
 

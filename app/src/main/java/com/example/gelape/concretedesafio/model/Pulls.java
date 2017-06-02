@@ -3,7 +3,6 @@ package com.example.gelape.concretedesafio.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 public class Pulls implements Serializable
@@ -15,7 +14,7 @@ public class Pulls implements Serializable
     private String pullTitle;
 
     @SerializedName("user")
-    private List<Users> userInfo;
+    private Users userInfo;
 
     @SerializedName("body")
     private String pullBody;
@@ -23,7 +22,7 @@ public class Pulls implements Serializable
     @SerializedName("created_at")
     private String createdAt;
 
-    public Pulls (String pullUrl, String pullTitle, List<Users> userInfo, String pullBody, String createdAt)
+    public Pulls (String pullUrl, String pullTitle, Users userInfo, String pullBody, String createdAt)
     {
         this.pullUrl = pullUrl;
         this.pullTitle = pullTitle;
@@ -48,11 +47,11 @@ public class Pulls implements Serializable
     {
         this.pullTitle = pullTitle;
     }
-    public List<Users> getUserInfo()
+    public Users getUserInfo()
 {
     return userInfo;
 }
-    public void setUserInfo(List<Users> userInfo)
+    public void setUserInfo(Users userInfo)
     {
         this.userInfo = userInfo;
     }
